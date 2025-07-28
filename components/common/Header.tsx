@@ -5,7 +5,7 @@ import NavLink from "./NavLink";
 const Header = () => {
   const isLoggedIn = false;
   return (
-    <nav className="container flex items-center justify-between lg:px-8 py-4 px-2 mx-auto">
+    <nav className="container flex  items-center justify-between lg:px-8 py-4 px-10 mx-auto text-lg">
       <div className="flex lg:flex-1">
         <NavLink href="/" classname="flex items-center gap-1 lg:gap-2 shrink-0">
           <FileText className="w-5 h-5 lg:w-8 lg:h-8 text-gray-900 hover:rotate-12 transform transition duration-200 ease-in-out" />
