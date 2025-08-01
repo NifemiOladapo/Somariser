@@ -1,14 +1,11 @@
 import { FileText } from "lucide-react";
-import Link from "next/link";
 import NavLink from "./NavLink";
 import {
   SignedIn,
   SignedOut,
-  SignIn,
   SignInButton,
   UserButton,
 } from "@clerk/nextjs";
-import { User } from "@clerk/nextjs/server";
 
 const Header = () => {
   const isLoggedIn = false;
