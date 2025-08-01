@@ -56,7 +56,7 @@ const PricingSection = () => {
           </h2>
         </div>
         <div className="relative flex justify-center flex-col lg:flex-row items-center lg:items-stretch gap-8">
-          {PRICING__PLANS.map((plan, idx) => (
+          {PRICING__PLANS.map((plan, idx) => ( 
             <Plan {...plan} key={plan.id} />
           ))}
         </div>
@@ -74,7 +74,7 @@ const Plan = ({
   paymentLink,
 }: PlanType) => {
   return (
-    <div className="relative w-full max-w-lg hover:scale-105 transition-all duration-300">
+    <div className="relative w-full max-w-lg hover:scale-105 transform-gpu transition-all duration-300">
       <div
         className={cn(
           "relative flex flex-col h-full z-10 p-8 border-[1px] border-gray-500/20 rounded-2xl",
