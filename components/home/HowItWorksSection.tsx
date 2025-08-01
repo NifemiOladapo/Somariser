@@ -1,9 +1,4 @@
-import {
-  BrainCircuit,
-  FileOutput,
-  FileText,
-  MoveRight,
-} from "lucide-react";
+import { BrainCircuit, FileOutput, FileText, MoveRight } from "lucide-react";
 import { ReactNode } from "react";
 
 type Step = { icon: ReactNode; label: string; description: string };
@@ -48,8 +43,8 @@ const HowItWorksSection = () => {
         </div>
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 relative">
           {steps.map((step, idx) => (
-            <div className="relative ">
-              <StepItem key={idx} {...step} />
+            <div className="relative" key={idx}>
+              <StepItem {...step} />
               {idx < steps.length - 1 && (
                 <div className="absolute hidden md:block -right-4 top-1/2 transform -translate-y-1/2">
                   <MoveRight
