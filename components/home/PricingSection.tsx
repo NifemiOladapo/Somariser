@@ -56,7 +56,7 @@ const PricingSection = () => {
           </h2>
         </div>
         <div className="relative flex justify-center flex-col lg:flex-row items-center lg:items-stretch gap-8">
-          {PRICING__PLANS.map((plan, idx) => ( 
+          {PRICING__PLANS.map((plan, idx) => (
             <Plan {...plan} key={plan.id} />
           ))}
         </div>
