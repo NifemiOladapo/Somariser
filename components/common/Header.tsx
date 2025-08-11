@@ -1,11 +1,6 @@
 import { FileText } from "lucide-react";
 import NavLink from "./NavLink";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  UserButton,
-} from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 const Header = () => {
   const isLoggedIn = false;
@@ -26,7 +21,7 @@ const Header = () => {
       <div className="flex lg:justify-end lg:flex-1">
         <SignedIn>
           <div className="flex gap-2 items-center">
-            <NavLink href={"/sign-in"}>Upload a PDF</NavLink>
+            <NavLink href={"/upload"}>Upload a PDF</NavLink>
             <div>Pro</div>
             <UserButton />
           </div>
