@@ -11,7 +11,9 @@ export const generatePDFSummaryFromOpenRouter = async (
 ) => {
   try {
     const response = await client.chat.completions.create({
-      model: "google/gemma-3-4b-it:free",
+      // model: "google/gemma-3-4b-it:free",
+      model: "google/gemma-4-31b-it",
+
       messages: [
         {
           role: "user",
