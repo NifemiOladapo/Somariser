@@ -24,8 +24,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ClerkProvider>
-        <body className={`antialiased`}>
+      <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
+        <body className={``}>
           <div className="relative flex flex-col min-h-dvh">
             <Header />
             <main className="flex-1">{children}</main>

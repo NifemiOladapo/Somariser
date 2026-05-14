@@ -77,7 +77,7 @@ const Plan = ({
     <div className="relative w-full max-w-lg hover:scale-105 transform-gpu transition-all duration-300">
       <div
         className={cn(
-          "relative flex flex-col h-full z-10 p-8 border-[1px] border-gray-500/20 rounded-2xl",
+          "relative flex flex-col h-full z-10 p-8 border-[1px] border-gdf;kjdgfkdgksuiuray-500/20 rounded-2xl",
           id === "pro" && "border-rose-500 gap-5 border-[3px]"
         )}
       >
@@ -116,7 +116,7 @@ const Plan = ({
                 : "border-rose-100 from-rose-400 to-rose-500"
             )}
           >
-            Buy Now
+            Buy 
             <ArrowRight size={18} />
           </Link>
         </div>
