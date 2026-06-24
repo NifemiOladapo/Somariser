@@ -5,7 +5,7 @@ import UploadFormInput from "./UploadFormInput";
 import { z } from "zod";
 import { useUploadThing } from "@/lib/useUploadThing";
 import { useRouter } from "next/navigation";
-import { generatePdfSummary } from "@/actions/uploadActions";
+import { generatePdfSummary, storePDFSummary } from "@/actions/uploadActions";
 import { useRef, useState } from "react";
 
 const fileSchema = z
@@ -60,7 +60,7 @@ const UploadForm = () => {
       };
 
       toast.info("Hold tight! Our AI is reading through your PDF!");
-      const summary = await generatePdfSummary(res);
+      const summary = await generatePdfSummary(res as any);
       const { data = null, message, success } = summary || {}
       if (!success) {
         toast.error(message || "An error occurred while processing your PDF");
@@ -71,14 +71,22 @@ const UploadForm = () => {
         toast.success("Hang tight! We are saving your summary!");
         formRef.current?.reset();
         console.log(data.summary);
-        // if(data.summary){
-        //   //save the summary to the DB
-        // }
+        if (data.summary) {
+          //save the summary to the DB
+          const { success, message } = await storePDFSummary({ summary: data.summary, fileName: file.name, title: data.title, fileUrl: res[0].serverData.file.url })
+          if (!success) {
+            return toast.error(message)
+          }
+          toast.success("Your summary has been successfully summarized and saved!");
+          formRef.current?.reset();
+        }
+
       }
     } catch (error) {
       formRef.current?.reset();
       console.log((error as any).message || "An error occurred while processing your PDF");
-      setLoading(false)
+      toast.error((error as any).message || "An error occurred while processing your PDF")
+
     } finally {
       setLoading(false)
     }
