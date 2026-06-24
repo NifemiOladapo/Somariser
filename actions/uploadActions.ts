@@ -4,6 +4,7 @@ import { extractPdfText } from "@/lib/extract-pdf-text";
 import { formatFileNameAsTitle } from "@/lib/format-utils";
 import { generatePDFSummaryFromOpenRouter } from "@/lib/openrouter";
 import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 
 export const generatePdfSummary = async (
   uploadResponse: [
@@ -92,7 +93,7 @@ const safePdfSummary = async ({
 }) => {
   try {
     const sql = await getDbConnection();
-    await sql`INSERT INTO pdf_summaries (
+    const [row] = await sql`INSERT INTO pdf_summaries (
     user_id,
     original_file_url,
     summary_text,
@@ -105,7 +106,10 @@ VALUES (
     ${summary},
     ${title},
     ${fileName}
-);`;
+)
+RETURNING id;`;
+
+    return row.id;
   } catch (error) {
     console.log(
       "Error saving PDF summary:",
@@ -126,6 +130,7 @@ export const storePDFSummary = async ({
   title: string;
   fileName: string;
 }) => {
+  let savePdfSummaryId: any;
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -134,25 +139,20 @@ export const storePDFSummary = async ({
         message: "Unauthorized",
       };
     }
-    const savePdfSummary: any = await safePdfSummary({
+    savePdfSummaryId = await safePdfSummary({
       userId,
       fileUrl,
       summary,
       title,
       fileName,
     });
-    // console.log(savePdfSummary);
 
-    // if (!savePdfSummary) {
-    //   return {
-    //     success: false,
-    //     message: "failed to save PDF summary",
-    //   };
-    // }
-    return {
-      success: true,
-      message: "PDF summary saved successfully",
-    };
+    if (!savePdfSummaryId) {
+      return {
+        success: false,
+        message: "failed to save PDF summary",
+      };
+    }
   } catch (error) {
     console.log(error instanceof Error && error.message);
     return {
@@ -163,4 +163,10 @@ export const storePDFSummary = async ({
           : "An error occurred while saving the summary",
     };
   }
+  revalidatePath(`/summaries/${savePdfSummaryId}`);
+  return {
+    success: true,
+    message: "PDF summary saved successfully",
+    data: { summaryId: savePdfSummaryId },
+  };
 };

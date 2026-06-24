@@ -20,6 +20,7 @@ const fileSchema = z
 
 const UploadForm = () => {
   const [loading, setLoading] = useState(false)
+  const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
   const { push } = useRouter();
   const { startUpload, routeConfig } = useUploadThing(
@@ -73,12 +74,13 @@ const UploadForm = () => {
         console.log(data.summary);
         if (data.summary) {
           //save the summary to the DB
-          const { success, message } = await storePDFSummary({ summary: data.summary, fileName: file.name, title: data.title, fileUrl: res[0].serverData.file.url })
+          const { success, message, data: { summaryId } }: any = await storePDFSummary({ summary: data.summary, fileName: file.name, title: data.title, fileUrl: res[0].serverData.file.url })
           if (!success) {
             return toast.error(message)
           }
           toast.success("Your summary has been successfully summarized and saved!");
           formRef.current?.reset();
+          router.push(`/summaries/${summaryId}`);
         }
 
       }
